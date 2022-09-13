@@ -7,7 +7,7 @@ public class Main {
         List<String> names = Arrays.asList("Jack", "Connor", "Harry", "George", "Samuel", "John", "Tomas", "Henry", "Anny");
         List<String> surnames = Arrays.asList("Evans", "Young", "Harris", "Wilson", "Davies", "Adamson", "Brown", "Smith");
         Collection<Person> persons = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10_000_000; i++) {
             persons.add(new Person(
                     names.get(new Random().nextInt(names.size())),
                     surnames.get(new Random().nextInt(surnames.size())),
@@ -35,15 +35,14 @@ public class Main {
 
         //3. Получить отсортированный по фамилии список потенциально работоспособных
         //  людей с высшим образованием (женщины от 18 до 60 лет, мужчины до 65 лет)
-        List<String> workable = persons.stream()
+        List<Person> workablePerson = persons.stream()
                 .filter(person -> person.getEducation() == Education.HIGHER)
                 .filter(person -> person.getAge() >= 18)
                 .filter(person -> ((person.getSex() == Sex.MAN && person.getAge() < 65)) || ((person.getSex()) == Sex.WOMAN && person.getAge() < 60))
-                .map(Person::getSurname)
-                .sorted(Comparator.naturalOrder())
+                .sorted(Comparator.comparing(Person::getSurname))
                 .collect(Collectors.toList());
         System.out.println("Список потенциально работоспособных людей с высшим образованием:");
-        System.out.println(workable);
+        System.out.println(workablePerson);
 
 
     }
